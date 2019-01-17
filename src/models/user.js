@@ -38,6 +38,10 @@ userSchema.methods.sanitize = function sanitize() {
   return rest;
 };
 
+userSchema.methods.validatePassword = function validatePassword(guess) {
+  return bcrypt.compareSync(guess, this.password);
+};
+
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
