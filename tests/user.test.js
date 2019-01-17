@@ -23,7 +23,7 @@ describe('User', () => {
         })
         .catch(error => done(error));
     });
-    it('Rejects attempts withoug valid teacherCode', (done) => {
+    it('Rejects attempts without valid teacherCode', (done) => {
       UserHelpers.signUp({
         user: userData,
         teacherCode: 'notTheCode',

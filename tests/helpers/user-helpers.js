@@ -10,3 +10,19 @@ exports.signUp = data => new Promise((resolve, reject) => {
       }
     });
 });
+
+exports.login = data => new Promise((resolve, reject) => {
+  chai.request(server)
+    .post('/auth/login')
+    .send({
+      email: data.email,
+      password: data.password,
+    })
+    .end((error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+});
