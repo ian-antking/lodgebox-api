@@ -71,4 +71,37 @@ describe('/student', () => {
         .catch(error => done(error));
     });
   });
+  describe('GET', () => {
+    it('returns a list of students', done => {
+      const studentsList = [];
+      for (let i = 0; i < 10; i += 1) {
+        studentsList.push(DataFactory.student());
+      }
+      StudentHelper.manyStudents(token, studentsList)
+        .then(() => {
+          Student.countDocuments((_, count) => {
+            expect(count).to.equal(10);
+          })
+            .catch(error => done(error));
+          StudentHelper.getStudents()
+            .then(res => {
+              res.body.forEach(item => {
+                const student = studentsList.find(element => {
+                  return element.name === item.name;
+                });
+                expect(item.name).to.equal(student.name);
+                expect(item.ip).to.equal(student.ip);
+              });
+              done();
+            })
+            .catch(error => done(error));
+        })
+        .catch(error => done(error));
+    });
+  });
+  // describe('PATCH', () => {
+  //   it('updates student name', (done) => {
+
+  //   });
+  // });
 });

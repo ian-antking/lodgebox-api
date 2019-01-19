@@ -1,6 +1,6 @@
 const Student = require('../models/student');
 
-exports.newStudnet = (req, res) => {
+exports.newStudent = (req, res) => {
   const student = new Student({
     name: req.body.name,
     ip: req.body.ip,
@@ -21,5 +21,11 @@ exports.newStudnet = (req, res) => {
     } else {
       res.sendStatus(500);
     }
+  });
+};
+
+exports.getStudents = (req, res) => {
+  Student.find({}, (_, students) => {
+    res.status(200).json(students);
   });
 };
