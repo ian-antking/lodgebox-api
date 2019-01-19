@@ -2,13 +2,13 @@ const UserHelpers = require('./helpers/user-helpers');
 const DataFactory = require('./helpers/data-factory');
 const User = require('../src/models/user');
 
-describe('User', () => {
+describe('/user', () => {
   const userData = DataFactory.user();
   const signUpData = {
     user: userData,
     teacherCode: 'teacherCode',
   };
-  describe('POST /user', () => {
+  describe('POST', () => {
     it('Creates a new user', (done) => {
       UserHelpers.signUp(signUpData)
         .then(res => {
