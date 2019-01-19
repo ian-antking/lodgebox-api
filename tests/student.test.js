@@ -98,6 +98,22 @@ describe('/student', () => {
         })
         .catch(error => done(error));
     });
+    it('returns a specific student', (done) => {
+      const StudentData = DataFactory.student();
+      const StudentData2 = DataFactory.student();
+      StudentHelper.newStudent(StudentData2).then(() => {
+        StudentHelper.newStudent(StudentData)
+          .then(student => {
+            StudentHelper.getStudents(student.body._id)
+              .then(res => {
+                expect(res.body._id).to.equal(student.body._id);
+                done();
+              })
+              .catch(error => done(error));
+          })
+          .catch(error => done(error));
+      });
+    });
   });
   // describe('PATCH', () => {
   //   it('updates student name', (done) => {

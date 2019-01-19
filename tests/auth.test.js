@@ -27,14 +27,14 @@ describe('/auth', () => {
           })
           .catch(error => done(error));
       });
-    });
-    it('handles invalid authentication', (done) => {
-      UserHelpers.login(DataFactory.user())
-        .then(res => {
-          expect(res.status).to.equal(401);
-          done();
-        })
-        .catch(error => done(error));
+      it('handles invalid authentication', (done) => {
+        UserHelpers.login(DataFactory.user())
+          .then(res => {
+            expect(res.status).to.equal(401);
+            done();
+          })
+          .catch(error => done(error));
+      });
     });
   });
 });

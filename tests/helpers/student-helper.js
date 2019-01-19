@@ -28,10 +28,10 @@ exports.manyStudents = (credentials, students) => new Promise((resolve, reject) 
   });
 });
 
-exports.getStudents = (data) => new Promise((resolve, reject) => {
+exports.getStudents = (id) => new Promise((resolve, reject) => {
   chai.request(server)
-    .get('/student')
-    .send(data)
+    .get(`/student?${id}`)
+    .send()
     .end((error, response) => {
       if (error) {
         reject(error);
