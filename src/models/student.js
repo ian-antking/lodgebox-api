@@ -9,6 +9,10 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: [true, 'ip address is required'],
   },
+  teacher: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const Student = mongoose.model('student', studentSchema);

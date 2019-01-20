@@ -4,6 +4,7 @@ exports.newStudent = (req, res) => {
   const student = new Student({
     name: req.body.name,
     ip: req.body.ip,
+    teacher: false,
   });
 
   student.save().then(() => {
@@ -33,5 +34,7 @@ exports.getStudents = (req, res) => {
 exports.deleteStudent = (req, res) => {
   Student.findOneAndDelete({ id: req.param._id }, () => {
     res.status(204).send();
+  }).catch(err => {
+    res.status(500).json(err);
   });
 };

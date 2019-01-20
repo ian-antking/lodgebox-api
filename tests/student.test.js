@@ -40,6 +40,7 @@ describe('/student', () => {
 
           expect(res.body.name).to.equal(studentData.name);
           expect(res.body.ip).to.equal(studentData.ip);
+          expect(res.body.teacher).to.equal(false);
           done();
         })
         .catch(error => done(error));

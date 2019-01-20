@@ -15,6 +15,7 @@ describe('/user', () => {
           expect(res.status).to.equal(201);
           expect(res.body.name).to.equal(userData.name);
           expect(res.body.email).to.equal(userData.email);
+          expect(res.body.teacher).to.equal(true);
           expect(res.body).to.not.have.property('password');
           User.countDocuments((_, count) => {
             expect(count).to.equal(1);
