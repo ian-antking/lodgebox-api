@@ -5,8 +5,13 @@ const Student = require('../src/models/student');
 
 let signUpData;
 let token;
+let studentsList;
 describe('/student', () => {
   beforeEach((done) => {
+    studentsList = [];
+    for (let i = 0; i < 10; i += 1) {
+      studentsList.push(DataFactory.student());
+    }
     signUpData = {
       user: DataFactory.user(),
       teacherCode: 'teacherCode',
@@ -73,17 +78,13 @@ describe('/student', () => {
   });
   describe('GET', () => {
     it('returns a list of students', done => {
-      const studentsList = [];
-      for (let i = 0; i < 10; i += 1) {
-        studentsList.push(DataFactory.student());
-      }
       StudentHelper.manyStudents(token, studentsList)
         .then(() => {
           Student.countDocuments((_, count) => {
             expect(count).to.equal(10);
           })
             .catch(error => done(error));
-          StudentHelper.getStudents()
+          StudentHelper.getStudents(token)
             .then(res => {
               res.body.forEach(item => {
                 const student = studentsList.find(element => {
@@ -100,19 +101,34 @@ describe('/student', () => {
     });
     it('returns a specific student', (done) => {
       const StudentData = DataFactory.student();
-      const StudentData2 = DataFactory.student();
-      StudentHelper.newStudent(StudentData2).then(() => {
-        StudentHelper.newStudent(StudentData)
+      StudentHelper.manyStudents(token, studentsList).then(() => {
+        StudentHelper.newStudent(token, StudentData)
           .then(student => {
-            StudentHelper.getStudents(student.body._id)
+            StudentHelper.getStudents(token, student.body._id)
               .then(res => {
-                expect(res.body._id).to.equal(student.body._id);
+                expect(res.body.length).to.equal(1);
+                expect(res.body[0]._id).to.equal(student.body._id);
                 done();
               })
               .catch(error => done(error));
           })
           .catch(error => done(error));
       });
+    });
+  });
+  describe('DELETE', () => {
+    it('deletes a student', (done) => {
+      const studentData = DataFactory.student();
+      StudentHelper.newStudent(token, studentData)
+        .then(student => {
+          StudentHelper.deleteStudent(token, student.body._id)
+            .then(res => {
+              expect(res.status).to.equal(204);
+              done();
+            })
+            .catch(error => done(error));
+        })
+        .catch(error => done(error));
     });
   });
   // describe('PATCH', () => {

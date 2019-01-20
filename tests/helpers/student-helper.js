@@ -28,9 +28,24 @@ exports.manyStudents = (credentials, students) => new Promise((resolve, reject) 
   });
 });
 
-exports.getStudents = (id) => new Promise((resolve, reject) => {
+exports.getStudents = (credentials, id) => new Promise((resolve, reject) => {
   chai.request(server)
-    .get(`/student?${id}`)
+    .get(id ? `/student?id=${id}` : '/student')
+    .set('Authorizer', credentials)
+    .send()
+    .end((error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+});
+
+exports.deleteStudent = (credentials, id) => new Promise((resolve, reject) => {
+  chai.request(server)
+    .delete(`/student//${id}`)
+    .set('Authorizer', credentials)
     .send()
     .end((error, response) => {
       if (error) {

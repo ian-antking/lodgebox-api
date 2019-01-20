@@ -5,6 +5,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 
 router.post('/', auth, studentController.newStudent);
-router.get('/', studentController.getStudents);
+router.get('/', auth, studentController.getStudents);
+router.delete('/:id', auth, studentController.deleteStudent);
 
 module.exports = router;

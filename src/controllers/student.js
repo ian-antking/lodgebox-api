@@ -25,7 +25,13 @@ exports.newStudent = (req, res) => {
 };
 
 exports.getStudents = (req, res) => {
-  Student.find({}, (_, students) => {
+  Student.find(req.query.id ? { _id: req.query.id } : {}, (_, students) => {
     res.status(200).json(students);
+  });
+};
+
+exports.deleteStudent = (req, res) => {
+  Student.findOneAndDelete({ id: req.param._id }, () => {
+    res.status(204).send();
   });
 };
