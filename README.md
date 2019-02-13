@@ -1,2 +1,5 @@
 # Lodgebox-api
-## File uploads and downloads for the classroom.
+## Schoolwork distribution and collection
+
+### Installation
+
