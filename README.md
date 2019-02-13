@@ -11,22 +11,22 @@ git clone https://github.com/ian-antking/lodgebox-api.git
 
 Install ```mongodb``` as a global dependancy:
 
-###Linux
+### Linux
 ```bash
 sudo apt install mongodb
 ```
-###Mac
+### Mac
 ```bash
 brew install mongodb
 ```
 
 Start the ```mongodb``` service:
 
-###Linux
+### Linux
 ```bash
 sudo service mongod start
 ```
-###Mac
+### Mac
 ```bash
 brew services mongodb start
 ```
@@ -34,11 +34,11 @@ brew services mongodb start
 Start `mongodb` local server:
 
 
-###Linux
+### Linux
 ```bash
 sudo mongod --port 27017 --dbpath /data/db
 ```
-###Mac
+### Mac
 ```bash
 mongodb
 ```
