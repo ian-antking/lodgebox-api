@@ -40,3 +40,16 @@ exports.getStudents = (data) => new Promise((resolve, reject) => {
       }
     });
 });
+
+exports.updateStudent = (credentials, data) => new Promise((resolve, reject) => {
+  chai.request(server)
+    .patch('/student')
+    .send(data)
+    .end((error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+});

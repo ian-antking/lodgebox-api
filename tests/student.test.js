@@ -99,9 +99,14 @@ describe('/student', () => {
         .catch(error => done(error));
     });
   });
-  // describe('PATCH', () => {
-  //   it('updates student name', (done) => {
-
-  //   });
-  // });
+  describe('PATCH', () => {
+    it('updates student name', (done) => {
+      const studentData = DataFactory.student();
+      StudentHelper.newStudent(token, studentData)
+        .then(res => {
+          console.log(res.body);
+          done();
+        });
+    });
+  });
 });
