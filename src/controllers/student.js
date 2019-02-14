@@ -41,7 +41,11 @@ exports.updateStudent = (req, res) => {
 };
 
 exports.deleteStudent = (req, res) => {
-  Student.deleteOne({ _id: req.params.id }, () => {
-    res.status(200).send();
+  Student.deleteOne({ _id: req.params.id }, (err) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      res.status(200).send();
+    }
   });
 };

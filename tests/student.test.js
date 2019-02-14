@@ -181,5 +181,18 @@ describe('/student', () => {
         })
         .catch(error => done(error));
     });
+    it('does not allow unauthorised deletions', (done) => {
+      const studentData = DataFactory.student();
+      StudentHelper.newStudent(null, studentData)
+        .then(res => {
+          StudentHelper.deleteStudent(token, res.body._id)
+            .then(response => {
+              expect(response.status).to.equal(500);
+              done();
+            })
+            .catch(error => done(error));
+        })
+        .catch(error => done(error));
+    });
   });
 });
