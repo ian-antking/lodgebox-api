@@ -104,8 +104,14 @@ describe('/student', () => {
       const studentData = DataFactory.student();
       StudentHelper.newStudent(token, studentData)
         .then(res => {
-          console.log(res.body);
-          done();
+          const studentUpdate = res.body;
+          studentUpdate.name = 'newName';
+          StudentHelper.updateStudent(token, studentUpdate)
+            .then(response => {
+              expect(response.body.name).to.equal('newName');
+              done();
+            })
+            .catch(error => done(error));
         });
     });
   });
