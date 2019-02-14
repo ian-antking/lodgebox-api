@@ -167,4 +167,19 @@ describe('/student', () => {
         });
     });
   });
+  describe('DELETE', () => {
+    it('deletes single student', (done) => {
+      const studentData = DataFactory.student();
+      StudentHelper.newStudent(token, studentData)
+        .then(res => {
+          StudentHelper.deleteStudent(token, res.body._id)
+            .then(response => {
+              expect(response.status).to.equal(200);
+              done();
+            })
+            .catch(error => done(error));
+        })
+        .catch(error => done(error));
+    });
+  });
 });
