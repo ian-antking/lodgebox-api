@@ -41,9 +41,9 @@ exports.getStudents = (data) => new Promise((resolve, reject) => {
     });
 });
 
-exports.updateStudent = (credentials, data) => new Promise((resolve, reject) => {
+exports.updateStudent = (credentials, id, data) => new Promise((resolve, reject) => {
   chai.request(server)
-    .patch(`/student/${data._id}`)
+    .put(`/student/${id}`)
     .set('Authorizer', credentials)
     .send(data)
     .end((error, response) => {
