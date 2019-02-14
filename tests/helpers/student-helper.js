@@ -54,3 +54,17 @@ exports.updateStudent = (credentials, id, data) => new Promise((resolve, reject)
       }
     });
 });
+
+exports.deleteStudent = (credentials, id) => new Promise((resolve, reject) => {
+  chai.request(server)
+    .delete(`/student/${id}`)
+    .set('Authorizer', credentials)
+    .send()
+    .end((error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+});
