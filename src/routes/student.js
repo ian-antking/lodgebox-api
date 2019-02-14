@@ -6,5 +6,5 @@ const router = express.Router();
 
 router.post('/', auth, studentController.newStudent);
 router.get('/', studentController.getStudents);
-router.put('/:id', studentController.updateStudent);
+router.put('/:id', auth, studentController.updateStudent);
 module.exports = router;

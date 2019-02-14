@@ -132,5 +132,39 @@ describe('/student', () => {
             .catch(error => done(error));
         });
     });
+    it('updates multiple fields', (done) => {
+      const studentData = DataFactory.student();
+      StudentHelper.newStudent(token, studentData)
+        .then(res => {
+          const studentUpdate = {
+            name: 'newName',
+            ip: 'newIp',
+          };
+          StudentHelper.updateStudent(token, res.body._id, studentUpdate)
+            .then(response => {
+              expect(response.status).to.equal(200);
+              expect(response.body.ip).to.equal('newIp');
+              expect(response.body.name).to.equal('newName');
+              done();
+            })
+            .catch(error => done(error));
+        });
+    });
+    it('does not allow unauthorised updates', (done) => {
+      const studentData = DataFactory.student();
+      StudentHelper.newStudent(token, studentData)
+        .then(res => {
+          const studentUpdate = {
+            name: 'newName',
+            ip: 'newIp',
+          };
+          StudentHelper.updateStudent(null, res.body._id, studentUpdate)
+            .then(response => {
+              expect(response.status).to.equal(401);
+              done();
+            })
+            .catch(error => done(error));
+        });
+    });
   });
 });

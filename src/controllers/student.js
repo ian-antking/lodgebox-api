@@ -31,7 +31,11 @@ exports.getStudents = (_, res) => {
 };
 
 exports.updateStudent = (req, res) => {
-  Student.findOneAndUpdate(req.params.id, req.body, { new: true }, (err, student) => {
-    res.status(200).send(student);
+  Student.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, student) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(student);
+    }
   });
 };
