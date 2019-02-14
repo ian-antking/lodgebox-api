@@ -99,9 +99,38 @@ describe('/student', () => {
         .catch(error => done(error));
     });
   });
-  // describe('PATCH', () => {
-  //   it('updates student name', (done) => {
-
-  //   });
-  // });
+  describe('PUT', () => {
+    it('updates student name', (done) => {
+      const studentData = DataFactory.student();
+      StudentHelper.newStudent(token, studentData)
+        .then(res => {
+          const studentUpdate = {
+            name: 'newName',
+          };
+          StudentHelper.updateStudent(token, res.body._id, studentUpdate)
+            .then(response => {
+              expect(response.status).to.equal(200);
+              expect(response.body.name).to.equal('newName');
+              done();
+            })
+            .catch(error => done(error));
+        });
+    });
+    it('updates student ip', (done) => {
+      const studentData = DataFactory.student();
+      StudentHelper.newStudent(token, studentData)
+        .then(res => {
+          const studentUpdate = {
+            ip: 'newIp',
+          };
+          StudentHelper.updateStudent(token, res.body._id, studentUpdate)
+            .then(response => {
+              expect(response.status).to.equal(200);
+              expect(response.body.ip).to.equal('newIp');
+              done();
+            })
+            .catch(error => done(error));
+        });
+    });
+  });
 });

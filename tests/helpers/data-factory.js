@@ -8,5 +8,5 @@ exports.user = (options = {}) => ({
 
 exports.student = (options = {}) => ({
   name: options.name || faker.name.firstName(),
-  ip: options.ip || faker.random.word(),
+  ip: options.ip || String(faker.random.number()),
 });

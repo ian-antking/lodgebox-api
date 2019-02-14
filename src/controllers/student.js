@@ -24,8 +24,14 @@ exports.newStudent = (req, res) => {
   });
 };
 
-exports.getStudents = (req, res) => {
-  Student.find({}, (_, students) => {
+exports.getStudents = (_, res) => {
+  Student.find({}, (__, students) => {
     res.status(200).json(students);
+  });
+};
+
+exports.updateStudent = (req, res) => {
+  Student.findOneAndUpdate(req.params.id, req.body, { new: true }, (err, student) => {
+    res.status(200).send(student);
   });
 };
