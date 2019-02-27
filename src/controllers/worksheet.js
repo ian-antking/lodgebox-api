@@ -1,8 +1,8 @@
-const Worksheet = require('../models/worksheet');
+const Worksheet = require('../models/worksheets');
 
 exports.createWorksheet = (req, res) => {
   const worksheet = new Worksheet({
   });
 
-  res.status(200).json(worksheet);
+  res.status(201).json(worksheet);
 };
