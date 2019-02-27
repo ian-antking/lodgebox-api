@@ -6,11 +6,11 @@ exports.createWorksheet = (req, res) => {
     subject: req.body.subject,
     description: req.body.description,
     uri: null,
-    teacher: null,
+    teacher: req.authorizer._id,
   });
 
   worksheet.save().then(() => {
-    res.status(201).json(worksheet);
+    res.status(201).json(worksheet.toObject());
   }).catch(error => {
     if (error.name === 'ValidationError') {
       const titleError = error.errors.title ? error.errors.title.message : null;

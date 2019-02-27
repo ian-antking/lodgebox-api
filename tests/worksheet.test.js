@@ -1,18 +1,21 @@
 const DataFactory = require('./helpers/data-factory');
 const WorksheetHelper = require('./helpers/worksheet-helper');
 const UserHelper = require('./helpers/user-helpers');
+const Worksheet = require('../src/models/worksheets');
 
 
 describe('/worksheet', () => {
   let worksheet;
   let token;
+  let teacherData;
   let teacher;
   beforeEach(done => {
     worksheet = DataFactory.worksheet();
-    teacher = DataFactory.user();
-    UserHelper.signUp(teacher)
-      .then(() => {
-        UserHelper.login(teacher)
+    teacherData = DataFactory.user();
+    UserHelper.signUp(teacherData)
+      .then(signUpRes => {
+        teacher = signUpRes.body;
+        UserHelper.login(teacherData)
           .then(res => {
             token = res.body.token;
             done();
@@ -25,6 +28,9 @@ describe('/worksheet', () => {
     it('creates a new worksheet', (done) => {
       WorksheetHelper.upload(token, worksheet)
         .then(res => {
+          Worksheet.countDocuments((_, count) => {
+            expect(count).to.equal(1);
+          });
           expect(res.status).to.equal(201);
           expect(res.body.title).to.equal(worksheet.title);
           expect(res.body.subject).to.equal(worksheet.subject);
@@ -67,6 +73,14 @@ describe('/worksheet', () => {
         .then(res => {
           expect(res.status).to.equal(422);
           expect(res.body.errors.description).to.equal('description is required');
+          done();
+        })
+        .catch(error => done(error));
+    });
+    it('is linked to user document', (done) => {
+      WorksheetHelper.upload(token, worksheet)
+        .then(res => {
+          expect(res.body.teacher.toString()).to.equal(teacher._id);
           done();
         })
         .catch(error => done(error));
