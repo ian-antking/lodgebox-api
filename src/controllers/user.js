@@ -2,9 +2,9 @@ const User = require('../models/user');
 
 exports.addUser = (req, res) => {
   const user = new User({
-    name: req.body.user.name,
-    email: req.body.user.email,
-    password: req.body.user.password,
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
   });
 
   if (req.body.teacherCode === process.env.TEACHER_CODE) {

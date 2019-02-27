@@ -4,13 +4,9 @@ const User = require('../src/models/user');
 
 describe('/user', () => {
   const userData = DataFactory.user();
-  const signUpData = {
-    user: userData,
-    teacherCode: 'teacherCode',
-  };
   describe('POST', () => {
     it('Creates a new user', (done) => {
-      UserHelpers.signUp(signUpData)
+      UserHelpers.signUp(userData)
         .then(res => {
           expect(res.status).to.equal(201);
           expect(res.body.name).to.equal(userData.name);
@@ -24,10 +20,10 @@ describe('/user', () => {
         .catch(error => done(error));
     });
     it('Rejects attempts without valid teacherCode', (done) => {
-      UserHelpers.signUp({
-        user: userData,
+      const fakeTeacher = DataFactory.user({
         teacherCode: 'notTheCode',
-      })
+      });
+      UserHelpers.signUp(fakeTeacher)
         .then(res => {
           expect(res.status).to.equal(401);
           done();
@@ -36,10 +32,7 @@ describe('/user', () => {
     });
     it('requires a valid email', (done) => {
       const data = DataFactory.user({ email: 'mockEmail' });
-      UserHelpers.signUp({
-        user: data,
-        teacherCode: process.env.TEACHER_CODE,
-      })
+      UserHelpers.signUp(data)
         .then(res => {
           expect(res.status).to.equal(422);
           expect(res.body.errors.email).to.equal('Invalid email address');
@@ -52,10 +45,7 @@ describe('/user', () => {
     });
     it('requires passwords to be 8 characters long', (done) => {
       const data = DataFactory.user({ password: 'pass' });
-      UserHelpers.signUp({
-        user: data,
-        teacherCode: process.env.TEACHER_CODE,
-      })
+      UserHelpers.signUp(data)
         .then(res => {
           expect(res.status).to.equal(422);
           expect(res.body.errors.password).to.equal('Password must be at least 8 characters long');
@@ -63,6 +53,21 @@ describe('/user', () => {
             expect(count).to.equal(0);
             done();
           });
+        })
+        .catch(error => done(error));
+    });
+  });
+  describe('GET', () => {
+    it('returns a list of users', (done) => {
+      const userList = [DataFactory.user(), DataFactory.user(), DataFactory.user()];
+      UserHelpers.manySignUp(userList)
+        .then(() => {
+          UserHelpers.getUsers()
+            .then(res => {
+              expect(res.staus).to.equal(200);
+              done();
+            })
+            .catch(error => done(error));
         })
         .catch(error => done(error));
     });

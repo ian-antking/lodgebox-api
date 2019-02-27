@@ -5,10 +5,7 @@ const jwt = require('jsonwebtoken');
 describe('/auth', () => {
   let userData;
   beforeEach((done) => {
-    userData = {
-      user: DataFactory.user(),
-      teacherCode: 'teacherCode',
-    };
+    userData = DataFactory.user();
     UserHelpers.signUp(userData).then(() => {
       done();
     });
@@ -16,7 +13,7 @@ describe('/auth', () => {
   describe('POST', () => {
     describe('/auth/login', () => {
       it('issues a web token', (done) => {
-        UserHelpers.login(userData.user)
+        UserHelpers.login(userData)
           .then(res => {
             expect(res.status).to.equal(200);
             const token = jwt.decode(res.body.token);

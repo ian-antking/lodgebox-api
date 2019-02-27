@@ -7,13 +7,10 @@ let signUpData;
 let token;
 describe('/student', () => {
   beforeEach((done) => {
-    signUpData = {
-      user: DataFactory.user(),
-      teacherCode: 'teacherCode',
-    };
+    signUpData = DataFactory.user();
     UserHelper.signUp(signUpData)
       .then(() => {
-        UserHelper.login(signUpData.user)
+        UserHelper.login(signUpData)
           .then((res) => {
             token = res.body.token;
             done();
