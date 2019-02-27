@@ -41,5 +41,35 @@ describe('/worksheet', () => {
         })
         .catch(error => done(error));
     });
+    it('requires a title', (done) => {
+      delete worksheet.title;
+      WorksheetHelper.upload(token, worksheet)
+        .then(res => {
+          expect(res.status).to.equal(422);
+          expect(res.body.errors.title).to.equal('title is required');
+          done();
+        })
+        .catch(error => done(error));
+    });
+    it('requires a subject', (done) => {
+      delete worksheet.subject;
+      WorksheetHelper.upload(token, worksheet)
+        .then(res => {
+          expect(res.status).to.equal(422);
+          expect(res.body.errors.subject).to.equal('subject is required');
+          done();
+        })
+        .catch(error => done(error));
+    });
+    it('requires a description', (done) => {
+      delete worksheet.description;
+      WorksheetHelper.upload(token, worksheet)
+        .then(res => {
+          expect(res.status).to.equal(422);
+          expect(res.body.errors.description).to.equal('description is required');
+          done();
+        })
+        .catch(error => done(error));
+    });
   });
 });

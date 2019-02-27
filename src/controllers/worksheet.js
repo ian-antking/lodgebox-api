@@ -9,5 +9,22 @@ exports.createWorksheet = (req, res) => {
     teacher: null,
   });
 
-  res.status(201).json(worksheet);
+  worksheet.save().then(() => {
+    res.status(201).json(worksheet);
+  }).catch(error => {
+    if (error.name === 'ValidationError') {
+      const titleError = error.errors.title ? error.errors.title.message : null;
+      const subjectError = error.errors.subject ? error.errors.subject.message : null;
+      const descriptionError = error.errors.description ? error.errors.description.message : null;
+      res.status(422).json({
+        errors: {
+          title: titleError,
+          subject: subjectError,
+          description: descriptionError,
+        },
+      });
+    } else {
+      res.sendStatus(500);
+    }
+  });
 };

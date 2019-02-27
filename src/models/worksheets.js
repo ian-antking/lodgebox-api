@@ -1,9 +1,18 @@
 const mongoose = require('mongoose');
 
 const worksheetSchema = new mongoose.Schema({
-  title: String,
-  subject: String,
-  description: String,
+  title: {
+    type: String,
+    required: [true, 'title is required'],
+  },
+  subject: {
+    type: String,
+    required: [true, 'subject is required'],
+  },
+  description: {
+    type: String,
+    required: [true, 'description is required'],
+  },
   uri: String,
   teacher: [{ type: mongoose.Schema.Types.ObjectId, ref: 'teacher' }],
 });
