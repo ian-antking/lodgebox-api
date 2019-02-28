@@ -2,10 +2,11 @@ const Worksheet = require('../models/worksheets');
 const Minio = require('minio');
 
 exports.createWorksheet = (req, res) => {
+  const fileData = JSON.parse(req.body.fileData);
   const worksheet = new Worksheet({
-    title: req.body.title,
-    subject: req.body.subject,
-    description: req.body.description,
+    title: fileData.title,
+    subject: fileData.subject,
+    description: fileData.description,
     uri: req.file.originalname,
     teacher: req.authorizer._id,
   });
@@ -17,8 +18,6 @@ exports.createWorksheet = (req, res) => {
     accessKey: process.env.MINIO_ACCESS,
     secretKey: process.env.MINIO_SECRET,
   });
-
-  console.log(req.file);
 
   fileStorage.putObject(process.env.MINIO_BUCKET, worksheet.uri, req.file.buffer, (err) => {
     if (err) {
