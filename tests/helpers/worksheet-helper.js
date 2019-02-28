@@ -1,8 +1,13 @@
+const Fs = require('fs');
+
+const file = `${__dirname}/test-file.txt`;
+
 exports.upload = (credentials, data)=> new Promise((resolve, reject) => {
   chai.request(server)
     .post('/worksheet')
     .set('Authorizer', credentials)
-    .send(data)
+    .attach('file', Fs.readFileSync(file), `test${Math.random() * 10}.txt`)
+    .field('fileData', JSON.stringify(data))
     .end((error, response) => {
       if (error) {
         reject(error);
