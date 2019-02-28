@@ -32,6 +32,8 @@
     "express": "^4.16.4",
     "isemail": "^3.2.0",
     "jsonwebtoken": "^8.4.0",
-    "mongoose": "^5.4.4"
+    "minio": "^7.0.5",
+    "mongoose": "^5.4.4",
+    "multer": "^1.4.1"
   }
 }
