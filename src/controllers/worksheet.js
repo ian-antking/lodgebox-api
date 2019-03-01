@@ -19,7 +19,9 @@ exports.createWorksheet = (req, res) => {
     secretKey: process.env.MINIO_SECRET,
   });
 
-  fileStorage.putObject(process.env.MINIO_BUCKET, req.file.originalname, req.file.buffer, (err) => {
+  const worksheetBucket = process.env.MINIO_WORKSHEET_BUCKET;
+
+  fileStorage.putObject(worksheetBucket, req.file.originalname, req.file.buffer, (err) => {
     if (err) {
       res.status(500).json({ error: err });
     } else {
