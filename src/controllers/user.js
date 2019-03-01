@@ -28,3 +28,9 @@ exports.addUser = (req, res) => {
     res.status(401).json({ error: 'Invalid teacher code' });
   }
 };
+
+exports.getUser = (_, res) => {
+  User.find({}, (__, users) => {
+    res.status(200).json(users);
+  });
+};

@@ -64,7 +64,13 @@ describe('/user', () => {
         .then(() => {
           UserHelpers.getUsers()
             .then(res => {
-              expect(res.staus).to.equal(200);
+              expect(res.status).to.equal(200);
+              res.body.forEach(item => {
+                const user = userList.find(element => {
+                  return element.name === item.name;
+                });
+                expect(item.name).to.equal(user.name);
+              });
               done();
             })
             .catch(error => done(error));
