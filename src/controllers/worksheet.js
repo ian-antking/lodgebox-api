@@ -7,7 +7,7 @@ exports.createWorksheet = (req, res) => {
     title: fileData.title,
     subject: fileData.subject,
     description: fileData.description,
-    uri: req.file.originalname,
+    uri: `${process.env.MINIO_SERVER}/${process.env.MINIO_BUCKET}/${req.file.originalname}`,
     teacher: req.authorizer._id,
   });
 
@@ -19,7 +19,7 @@ exports.createWorksheet = (req, res) => {
     secretKey: process.env.MINIO_SECRET,
   });
 
-  fileStorage.putObject(process.env.MINIO_BUCKET, worksheet.uri, req.file.buffer, (err) => {
+  fileStorage.putObject(process.env.MINIO_BUCKET, req.file.originalname, req.file.buffer, (err) => {
     if (err) {
       res.status(500).json({ error: err });
     } else {

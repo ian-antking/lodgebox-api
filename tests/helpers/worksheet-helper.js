@@ -6,7 +6,7 @@ exports.upload = (credentials, data) => new Promise((resolve, reject) => {
   chai.request(server)
     .post('/worksheet')
     .set('Authorizer', credentials)
-    .attach('file', Fs.readFileSync(file), `test${Math.round(Math.random() * 10)}.txt`)
+    .attach('file', Fs.readFileSync(file), `test${Math.round(Math.random() * 1000)}.txt`)
     .field('fileData', JSON.stringify(data))
     .end((error, response) => {
       if (error) {
