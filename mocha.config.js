@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const app = require('./src/app');
-const Minio = require('minio');
+
 
 let server = null;
 
