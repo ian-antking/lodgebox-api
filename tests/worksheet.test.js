@@ -117,7 +117,12 @@ describe('/worksheet', () => {
           WorksheetHelper.deleteWorksheet(token, res.body._id)
             .then(response => {
               expect(response.status).to.equal(200);
-              done();
+              WorksheetHelper.getWorksheets()
+                .then(response2 => {
+                  expect(response2.body.worksheets.length).to.equal(0);
+                  done();
+                })
+                .catch(error => done(error));
             })
             .catch(error => done(error));
         })
