@@ -88,20 +88,14 @@ describe('/worksheet', () => {
   });
   describe('GET', () => {
     it('returns list of worksheets', (done) => {
-      const worksheetList = [];
-      for (let i = 0; i < 10; i += 1) {
-        worksheetList.push(DataFactory.worksheet());
-      }
+      const worksheetList = [DataFactory.worksheet()];
       WorksheetHelper.manyWorksheets(token, worksheetList)
         .then(() => {
-          Worksheet.countDocuments((_, count) => {
-            expect(count).to.equal(10);
-          })
-            .catch(error => done(error));
           WorksheetHelper.getWorksheets()
             .then(res => {
               expect(res.status).to.equal(200);
-              res.body.forEach(item => {
+              expect(res.body.worksheets.length).to.equal(worksheetList.length);
+              res.body.worksheets.forEach(item => {
                 const student = worksheetList.find(element => {
                   return element.title === item.title;
                 });
@@ -109,6 +103,32 @@ describe('/worksheet', () => {
                 expect(item.subject).to.equal(student.subject);
                 expect(item.description).to.equal(student.description);
               });
+              done();
+            })
+            .catch(error => done(error));
+        })
+        .catch(error => done(error));
+    });
+  });
+  describe('DELETE', () => {
+    it('deletes single worksheet', (done) => {
+      WorksheetHelper.upload(token, worksheet)
+        .then(res => {
+          WorksheetHelper.deleteWorksheet(token, res.body._id)
+            .then(response => {
+              expect(response.status).to.equal(200);
+              done();
+            })
+            .catch(error => done(error));
+        })
+        .catch(error => done(error));
+    });
+    it('does not allow unauthorised deletions', (done) => {
+      WorksheetHelper.upload(token, worksheet)
+        .then(res => {
+          WorksheetHelper.deleteWorksheet(null, res.body._id)
+            .then(response => {
+              expect(response.status).to.equal(401);
               done();
             })
             .catch(error => done(error));
