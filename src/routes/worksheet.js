@@ -10,5 +10,6 @@ const upload = multer({
 });
 
 router.post('/', auth, upload.single('file'), worksheetController.createWorksheet);
+router.get('/', worksheetController.getWorksheets);
 
 module.exports = router;

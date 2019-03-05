@@ -86,4 +86,34 @@ describe('/worksheet', () => {
         .catch(error => done(error));
     });
   });
+  describe('GET', () => {
+    it('returns list of worksheets', (done) => {
+      const worksheetList = [];
+      for (let i = 0; i < 10; i += 1) {
+        worksheetList.push(DataFactory.worksheet());
+      }
+      WorksheetHelper.manyWorksheets(token, worksheetList)
+        .then(() => {
+          Worksheet.countDocuments((_, count) => {
+            expect(count).to.equal(10);
+          })
+            .catch(error => done(error));
+          WorksheetHelper.getWorksheets()
+            .then(res => {
+              expect(res.status).to.equal(200);
+              res.body.forEach(item => {
+                const student = worksheetList.find(element => {
+                  return element.title === item.title;
+                });
+                expect(item.title).to.equal(student.title);
+                expect(item.subject).to.equal(student.subject);
+                expect(item.description).to.equal(student.description);
+              });
+              done();
+            })
+            .catch(error => done(error));
+        })
+        .catch(error => done(error));
+    });
+  });
 });

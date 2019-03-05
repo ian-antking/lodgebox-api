@@ -16,3 +16,33 @@ exports.upload = (credentials, data) => new Promise((resolve, reject) => {
       }
     });
 });
+
+exports.manyWorksheets = (credentials, worksheets) => new Promise((resolve, reject) => {
+  worksheets.forEach(worksheet => {
+    chai.request(server)
+      .post('/worksheet')
+      .set('Authorizer', credentials)
+      .attach('file', Fs.readFileSync(file), `test${Math.round(Math.random() * 1000)}.txt`)
+      .field('fileData', JSON.stringify(worksheet))
+      .end((error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      });
+  });
+});
+
+exports.getWorksheets = (data) => new Promise((resolve, reject) => {
+  chai.request(server)
+    .get('/worksheet')
+    .send(data)
+    .end((error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+});
