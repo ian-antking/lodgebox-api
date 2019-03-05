@@ -82,6 +82,7 @@ describe('/student', () => {
             .catch(error => done(error));
           StudentHelper.getStudents()
             .then(res => {
+              expect(res.status).to.equal(200);
               res.body.forEach(item => {
                 const student = studentsList.find(element => {
                   return element.name === item.name;

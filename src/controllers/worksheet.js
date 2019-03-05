@@ -7,7 +7,7 @@ exports.createWorksheet = (req, res) => {
     title: fileData.title,
     subject: fileData.subject,
     description: fileData.description,
-    uri: `${process.env.MINIO_SERVER}/${process.env.MINIO_BUCKET}/${req.file.originalname}`,
+    uri: `${process.env.MINIO_SERVER}:${process.env.MINIO_PORT}/${process.env.MINIO_WORKSHEET_BUCKET}/${req.file.originalname}`,
     teacher: req.authorizer._id,
   });
 
@@ -44,5 +44,11 @@ exports.createWorksheet = (req, res) => {
         }
       });
     }
+  });
+};
+
+exports.getWorksheets = (_, res) => {
+  Worksheet.find({}, (__, worksheets) => {
+    res.status(200).json(worksheets);
   });
 };

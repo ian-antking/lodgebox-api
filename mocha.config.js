@@ -7,7 +7,6 @@ const dotenv = require('dotenv');
 const path = require('path');
 const app = require('./src/app');
 
-
 let server = null;
 
 before((done) => {
