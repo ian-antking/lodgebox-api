@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const app = require('./src/app');
+const MinioHelper = require('./tests/helpers/minio-helper');
 
 let server = null;
 
@@ -42,6 +43,7 @@ afterEach((done) => {
 });
 
 after((done) => {
+  MinioHelper.emptyBuckets();
   mongoose.connection.close(() => {
     server.close();
     done();
