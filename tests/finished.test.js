@@ -1,6 +1,7 @@
 const DataFactory = require('./helpers/data-factory');
 const StudentHelper = require('./helpers/student-helper');
 const UserHelper = require('./helpers/user-helpers');
+const FinishedHelper = require('./helpers/finished-helper');
 
 describe('/finished', () => {
   let token;
@@ -32,8 +33,12 @@ describe('/finished', () => {
   });
   describe('POST', () => {
     it('creates new finished object', (done) => {
-      
-      done();
+      FinishedHelper.upload(student.ip, finishedWorkData)
+        .then(res => {
+          expect(res.status).to.equal(201);
+          done();
+        })
+        .catch(error => done(error));
     });
   });
 });
