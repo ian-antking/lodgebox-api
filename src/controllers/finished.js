@@ -1,4 +1,4 @@
-const Finished = require('../models/worksheets');
+const Finished = require('../models/finished');
 // const Minio = require('minio');
 
 exports.createFinished = (req, res) => {
@@ -10,5 +10,7 @@ exports.createFinished = (req, res) => {
     teacher: null,
   });
 
-  res.status(201).json(finished);
+  finished.save().then(() => {
+    res.status(201).json(finished);
+  });
 };

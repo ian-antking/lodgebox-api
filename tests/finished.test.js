@@ -37,8 +37,9 @@ describe('/finished', () => {
           expect(res.status).to.equal(201);
           Finished.countDocuments((_, count) => {
             expect(count).to.equal(1);
-            done();
           });
+          expect(res.body.title).to.equal(finishedWorkData.title);
+          done();
         })
         .catch(error => done(error));
     });
