@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: [8, 'Password must be at least 8 characters long'],
   },
+  isTeacher: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 userSchema.pre('save', function encryptPassword(next) {

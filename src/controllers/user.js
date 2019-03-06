@@ -5,6 +5,7 @@ exports.addUser = (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
+    isTeacher: true,
   });
 
   if (req.body.teacherCode === process.env.TEACHER_CODE) {
