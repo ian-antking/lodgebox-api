@@ -3,9 +3,9 @@ const faker = require('faker');
 
 const file = `${__dirname}/test-file.txt`;
 
-exports.upload = (ip, data) => new Promise((resolve, reject) => {
+exports.upload = (ip, data, teacher) => new Promise((resolve, reject) => {
   chai.request(server)
-    .post('/finished')
+    .post(`/finished/${teacher}`)
     .set('x-forwarded-for', ip)
     .attach('file', Fs.readFileSync(file), faker.system.commonFileName())
     .field('fileData', JSON.stringify(data))

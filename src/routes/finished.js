@@ -8,6 +8,6 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-router.post('/', upload.single('file'), finishedController.createFinished);
+router.post('/:id', upload.single('file'), finishedController.createFinished);
 
 module.exports = router;

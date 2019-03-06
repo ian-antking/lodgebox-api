@@ -7,7 +7,7 @@ exports.createFinished = (req, res) => {
     title: fileData.title,
     uri: `${process.env.MINIO_SERVER}:${process.env.MINIO_PORT}/${process.env.MINIO_WORKSHEET_BUCKET}/${req.file.originalname}`,
     student: null,
-    teacher: null,
+    teacher: req.params.id,
   });
 
   finished.save().then(() => {

@@ -8,6 +8,7 @@ describe('/finished', () => {
   let token;
   let teacherData;
   let studentData;
+  let teacher;
   let student;
   let finishedWorkData;
   beforeEach(done => {
@@ -15,7 +16,8 @@ describe('/finished', () => {
     studentData = DataFactory.student({ ip: '10.0.9.13' });
     teacherData = DataFactory.user();
     UserHelper.signUp(teacherData)
-      .then(() => {
+      .then((signUpRes) => {
+        teacher = signUpRes.body;
         UserHelper.login(teacherData)
           .then(res => {
             token = res.body.token;
@@ -32,13 +34,14 @@ describe('/finished', () => {
   });
   describe('POST', () => {
     it('creates new finished object', (done) => {
-      FinishedHelper.upload(student.ip, finishedWorkData)
+      FinishedHelper.upload(student.ip, finishedWorkData, teacher._id)
         .then(res => {
           expect(res.status).to.equal(201);
           Finished.countDocuments((_, count) => {
             expect(count).to.equal(1);
           });
           expect(res.body.title).to.equal(finishedWorkData.title);
+          expect(res.body.teacher.toString()).to.equal(teacher._id);
           done();
         })
         .catch(error => done(error));
